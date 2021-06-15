@@ -1,0 +1,32 @@
+apiVersion: v1
+baseDomain: $DOMAIN_NAME
+compute:
+- hyperthreading: Enabled   
+  name: worker
+  replicas: 1
+controlPlane:
+  hyperthreading: Enabled   
+  name: master
+  replicas: 3 
+metadata:
+  name: $CLUSTERNAME
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 10.0.0.0/16
+  networkType: $NETWORKTYPE
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  vsphere:
+    vcenter: $VCENTER
+    username: $USERNAME
+    password: $PASSWORD
+    datacenter: $DATACENTER
+    defaultDatastore: $DEFAULTDATASTORE
+    folder: "$FOLDER"
+fips: false
+pullSecret: '${PULLSECRET}'
+sshKey: "$SSHKEY"

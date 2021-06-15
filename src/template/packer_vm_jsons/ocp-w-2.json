@@ -1,0 +1,88 @@
+{
+  "builders": [
+    {
+      "CPUs": "{{user `vm_vcpu`}}",
+      "RAM": "{{user `vm_memory`}}",
+      "boot_command": [
+        "<tab>",
+	"<wait>",
+        " sudo coreos-installer install /dev/sda --image-url {{user `ocp_url_image`}} --insecure",
+	"<enter>",
+	"<wait100>",
+	"<enter>",
+        " sudo coreos-installer install /dev/sda --ignition-url {{user `ocp_url_ign`}} --insecure-ignition",
+	"<enter>",
+	"<wait100>",
+	"<enter>",
+	" sudo reboot",
+	"<enter>",
+        "<enter>"
+      ],
+      "boot_order": "disk,cdrom",
+      "boot_wait": "60s",
+      "cluster": "{{user `vcenter_cluster`}}",
+      "communicator": "ssh",
+      "convert_to_template": false,
+      "datacenter": "{{user `vcenter_datacenter`}}",
+      "datastore": "{{user `vcenter_datastore_vm`}}",
+      "disk_controller_type": "pvscsi",
+      "folder": "{{user `vcenter_folderpath`}}",
+      "guest_os_type": "coreos64Guest",
+      "host": "{{ user `vcenter_host`}}",
+      "insecure_connection": "true",
+      "iso_paths": [
+        "[{{user `vcenter_datastore_iso` }}] {{user `vcenter_iso_path` }}"
+      ],
+      "network_adapters": [
+        {
+          "network": "{{user `vm_network`}}",
+          "network_card": "vmxnet3",
+	  "mac_address": "00:50:56:b2:e7:12"
+        }
+      ],
+      "password": "{{user `vcenter_password`}}",
+      "shutdown_command": "sudo -S shutdown -P now",
+      "ssh_read_write_timeout": "5m",
+      "ssh_username": "core",
+      "ssh_private_key_file": "~/.ssh/id_rsa",
+      "ssh_timeout": "{{user `ssh_timeout`}}",
+      "storage": [
+        {
+          "disk_size": "{{user `vm_disksize`}}",
+          "disk_thin_provisioned": true
+        }
+      ],
+      "type": "vsphere-iso",
+      "username": "{{user `vcenter_username`}}",
+      "vcenter_server": "{{user `vcenter_server`}}",
+      "vm_name": "{{user `ocp_nodename`}}",
+      "vm_version": 13
+    }
+  ],
+  "variables": {
+    "ocp_domainname": "$DOMAIN_NAME",
+    "ocp_nodename": "ocp-w-2",
+    "ocp_nodetype": "compute",
+    "ocp_url_ign": "http://$apache_server_ip:8080/ocp4/worker.ign",
+    "ocp_url_image": "http://$apache_server_ip:8080/ocp4/rhcos-$OCPVERSION",
+    "vcenter_cluster": "$VCENTER_CLUSTER",
+    "vcenter_datacenter": "$DATACENTER",
+    "vcenter_datastore_iso": "$DEFAULTDATASTORE",
+    "vcenter_datastore_vm": "$DEFAULTDATASTORE",
+    "vcenter_folderpath": "$FOLDER",
+    "vcenter_host": "$VCENTER_HOST",
+    "vcenter_iso_path": "ISOS/rhcos-$OCPVERSION.iso",
+    "vcenter_password": "$PASSWORD",
+    "vcenter_server": "$VCENTER",
+    "vcenter_username": "$USERNAME",
+    "vm_disksize": "122880",
+    "vm_memory": "8192",
+    "vm_network": "$PORT_GROUP",
+    "vm_v4address": "$ocp_w2_ip",
+    "vm_v4defaultgw": "192.168.0.254",
+    "vm_v4dns_server": "192.168.0.13",
+    "vm_v4netmask": "255.255.255.0",
+    "ssh_timeout": "600s",
+    "vm_vcpu": "2"
+  }
+}

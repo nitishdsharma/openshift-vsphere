@@ -219,8 +219,8 @@ There will be 4 directories present under **openshift-installer-pkg**
    ```
 config.ini example 
  ```
-VCENTER=157.90.71.193
-VCENTERHOSTNAME='static.193.71.90.157.clients.your-server.de'
+VCENTER=17.10.10.12
+VCENTERHOSTNAME='hostname'
 USERNAME='************'
 PASSWORD='************'
 DATACENTER=Datacenter
@@ -231,8 +231,8 @@ OCPVERSION="4.7"
 NETWORKTYPE="OpenShiftSDN"
 PULLSECRET='PULL-SECRET'
 SSHKEY="SSH-KEY"
-VCENTER_CLUSTER="gdccloud"
-VCENTER_HOST="136.243.62.33"
+VCENTER_CLUSTER="ocpcloud"
+VCENTER_HOST="2.24.62.33"
 VCENTER_ISO_PATH="ISOS/rhcos-$OCPVERSION.iso"
 SUBNET_RANGE="192.168.0.0/24"
 DOMAIN_NAME="ocp.lan"
